@@ -8,7 +8,7 @@ const theme = extendTheme({
     heading: "Inter, sans-serif",
   },
   styles: {
-    global: (_props) => ({
+    global: () => ({
       "ol,ul,li": {
         listStyle: "none",
       },
