@@ -82,10 +82,3 @@ export async function searchBooks(query: string): Promise<SearchBooksResult> {
   const data = await res.json();
   return data;
 }
-
-// searchBooks("program")
-//   .then((data) => {
-//     writeFileSync("sample-data.json", JSON.stringify(data, null, 2));
-//     console.log(JSON.stringify(data));
-//   })
-//   .catch((error) => console.log("❌ ERROR: ", error));
