@@ -1,4 +1,4 @@
-import { Card, Flex, Stack, Text, VStack } from "@chakra-ui/react";
+import { Card, Text, VStack } from "@chakra-ui/react";
 
 export type BookFeedItemProps = {
   title: string;

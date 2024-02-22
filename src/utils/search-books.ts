@@ -73,7 +73,7 @@ export type SearchBooksResult = {
 };
 
 export async function searchBooks(query: string): Promise<SearchBooksResult> {
-  const res = await fetch(BASE_URL + query + "&start=0&limit=10", {
+  const res = await fetch(BASE_URL + query, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
