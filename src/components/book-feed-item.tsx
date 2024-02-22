@@ -22,7 +22,9 @@ export const BookFeedItem: React.FC<BookFeedItemProps> = ({
           {title}
         </Text>
         {authorName ? (
-          <Text fontSize="small">by {authorName.join(", ")}</Text>
+          <Text fontSize="small" textOverflow="ellipsis" noOfLines={1}>
+            by {authorName.join(", ")}
+          </Text>
         ) : null}
         <span>
           <span>{numberOfPages} pages</span>
