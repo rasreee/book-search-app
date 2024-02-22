@@ -1,7 +1,9 @@
 "use client";
 
-import { Flex, Input, Select } from "@chakra-ui/react";
-import { ChangeEventHandler, useState } from "react";
+import { SearchBooksResult, searchBooks } from "@/utils/search-books";
+import { Input, Select } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { BookFeed } from "@/components/book-feed";
 
 enum SortByType {
   RELEVANCE = "relevance",
@@ -22,6 +24,15 @@ const SortByOptions = {
 export default function Home() {
   const [query, setQuery] = useState("");
   const [sortByType, setSortByType] = useState(SortByType.RELEVANCE);
+  const [result, setResult] = useState<SearchBooksResult | null>(null);
+
+  useEffect(() => {
+    if (!query) return;
+
+    searchBooks(query).then((data) => {
+      setResult(data);
+    });
+  }, [query]);
 
   return (
     <main>
@@ -48,6 +59,7 @@ export default function Home() {
           ))}
         </Select>
       </div>
+      <BookFeed result={result} />
     </main>
   );
 }

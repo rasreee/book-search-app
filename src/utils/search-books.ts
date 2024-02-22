@@ -1,5 +1,3 @@
-import { writeFileSync } from "fs";
-
 const BASE_URL = "https://openlibrary.org/search.json?q=";
 
 export type Doc = {
@@ -64,14 +62,14 @@ export type Doc = {
   subject_key: string[];
 };
 
-export type Result = {
+export type SearchBooksResult = {
   numFound: number;
   start: number;
   numFoundExact: true;
   docs: Doc[];
 };
 
-export async function searchBooks(query: string): Promise<Result> {
+export async function searchBooks(query: string): Promise<SearchBooksResult> {
   const res = await fetch(BASE_URL + query, {
     method: "GET",
     headers: {
