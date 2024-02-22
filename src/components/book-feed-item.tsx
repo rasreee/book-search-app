@@ -1,7 +1,9 @@
+import { Card, Flex, Stack, Text, VStack } from "@chakra-ui/react";
+
 export type BookFeedItemProps = {
   title: string;
-  authorName: string[];
-  isbn: string[];
+  authorName?: string[];
+  isbn?: string[];
   numberOfPages: number;
   firstPublishedYear: number;
 };
@@ -14,12 +16,25 @@ export const BookFeedItem: React.FC<BookFeedItemProps> = ({
   firstPublishedYear,
 }) => {
   return (
-    <div>
-      <div>{title}</div>
-      <div>by {authorName.join(", ")}</div>
-      <div>published {firstPublishedYear}</div>
-      <div>{numberOfPages} pages</div>
-      <div>{isbn.join(", ")}</div>
-    </div>
+    <Card paddingY={4} paddingX={5}>
+      <VStack align="start">
+        <Text fontSize="medium" fontWeight="semibold">
+          {title}
+        </Text>
+        {authorName ? (
+          <Text fontSize="small">by {authorName.join(", ")}</Text>
+        ) : null}
+        <span>
+          <span>{numberOfPages} pages</span>
+          {" - "}
+          <span>published {firstPublishedYear}</span>
+        </span>
+        {isbn ? (
+          <Text fontSize="small" textOverflow="ellipsis" noOfLines={1}>
+            ISBN: {isbn.join(", ")}
+          </Text>
+        ) : null}
+      </VStack>
+    </Card>
   );
 };

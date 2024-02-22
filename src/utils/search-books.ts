@@ -1,3 +1,5 @@
+"use server";
+
 const BASE_URL = "https://openlibrary.org/search.json?q=";
 
 export type Doc = {
@@ -20,7 +22,7 @@ export type Doc = {
   oclc: string[];
   contributor: string[];
   lcc: string[];
-  isbn: string[];
+  isbn?: string[];
   last_modified_i: number;
   ebook_count_i: number;
   ebook_access: string;
@@ -48,7 +50,7 @@ export type Doc = {
   publisher: string[];
   language: string[];
   author_key: string[];
-  author_name: string[];
+  author_name?: string[];
   author_alternative_name: string[];
   subject: string[];
   id_goodreads: string[];
@@ -63,17 +65,17 @@ export type Doc = {
 };
 
 export type SearchBooksResult = {
-  numFound: number;
   start: number;
-  numFoundExact: true;
+  offset?: number | null;
   docs: Doc[];
+  numFound: number;
+  numFoundExact: boolean;
 };
 
 export async function searchBooks(query: string): Promise<SearchBooksResult> {
-  const res = await fetch(BASE_URL + query, {
+  const res = await fetch(BASE_URL + query + "&start=0&limit=10", {
     method: "GET",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
   });

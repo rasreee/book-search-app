@@ -7,6 +7,13 @@ const theme = extendTheme({
     body: "Inter, sans-serif",
     heading: "Inter, sans-serif",
   },
+  styles: {
+    global: (_props) => ({
+      "ol,ul,li": {
+        listStyle: "none",
+      },
+    }),
+  },
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {

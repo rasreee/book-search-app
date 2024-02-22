@@ -1,9 +1,10 @@
 "use client";
 
 import { SearchBooksResult, searchBooks } from "@/utils/search-books";
-import { Input, Select } from "@chakra-ui/react";
+import { HStack, Heading, Input, Select, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { BookFeed } from "@/components/book-feed";
+import { FeedSkeleton } from "@/components/feed-skeleton";
 
 enum SortByType {
   RELEVANCE = "relevance",
@@ -24,20 +25,33 @@ const SortByOptions = {
 export default function Home() {
   const [query, setQuery] = useState("");
   const [sortByType, setSortByType] = useState(SortByType.RELEVANCE);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [result, setResult] = useState<SearchBooksResult | null>(null);
 
   useEffect(() => {
-    if (!query) return;
+    if (!query) {
+      setResult(null);
+      return;
+    }
 
-    searchBooks(query).then((data) => {
-      setResult(data);
-    });
+    setIsLoading(true);
+    searchBooks(query)
+      .then((data) => {
+        setResult(data);
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [query]);
 
   return (
-    <main>
-      <h1>Book Search</h1>
-      <div>
+    <VStack paddingX={8}>
+      <Heading marginY={8}>Book Search</Heading>
+      <HStack>
         <Input
           type="search"
           placeholder="Search books"
@@ -45,6 +59,7 @@ export default function Home() {
           onChange={(event) => {
             setQuery(event.target.value);
           }}
+          autoFocus
         />
         <Select
           value={sortByType}
@@ -58,8 +73,10 @@ export default function Home() {
             </option>
           ))}
         </Select>
-      </div>
-      <BookFeed result={result} />
-    </main>
+      </HStack>
+      {isLoading && <FeedSkeleton />}
+      {errorMessage && <Text textColor="red">Error: {errorMessage}</Text>}
+      {result && <BookFeed result={result} />}
+    </VStack>
   );
 }
